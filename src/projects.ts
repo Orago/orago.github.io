@@ -1,6 +1,4 @@
-import { newNode as node } from '@orago/dom';
 import { ProjectNode, TempImageProjectNode } from './components/project';
-
 
 export const ProjectList = [
 	new ProjectNode(

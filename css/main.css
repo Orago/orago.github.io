@@ -8,6 +8,11 @@
 	src: url('ERTHQAKE.ttf');
 }
 
+@font-face {
+	font-family: 'silly';
+	src: url('BaksoSapi.otf');
+}
+
 *,
 *:before,
 *:after {
@@ -23,6 +28,9 @@ html {
 }
 
 body {
+	--color-background: black;
+	--color-foreground: white;
+
 	margin: 0;
 	background-repeat: repeat;
 	background-blend-mode: screen;
@@ -30,22 +38,20 @@ body {
 	font-family: sans-serif;
 	overflow-x: hidden;
 	height: 100%;
-	background: black;
-	color: white;
+	background: var(--color-background);
+	color: var(--color-foreground);
+	font-family: 'silly';
 
 	/* cursor: url(/assets/sprites/ui/cursor.png), pointer; */
 }
 
 .logo {
 	font-family: 'earthquake';
-	color: white;
+	color: var(--color-foreground);
 }
 
 #main {
-	display: flex;
-	flex-direction: column;
 	width: 100%;
-
 }
 
 .loader .splash {
@@ -82,6 +88,16 @@ body {
 	justify-content: end;
 }
 
+.links {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
 .link {
 	cursor: pointer;
+}
+
+a[href] {
+	color: white;
 }

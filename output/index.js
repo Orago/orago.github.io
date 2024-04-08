@@ -505,6 +505,7 @@ class Loader extends ProxyNode {
             alignItems: 'center',
             justifyContent: 'center',
             top: 0,
+            zIndex: 1000
         });
         this.logo = newNode.div
             .class('logo')
@@ -526,22 +527,28 @@ class Loader extends ProxyNode {
             bottom: '20px'
         }));
     }
-    fadeIn() {
+    fadeIn(background, foreground) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.element.animate([{ background }], { duration: 2000, easing: 'ease-in-out' });
             const fadeInLogo = this.logo.element.animate([{
                     rotate: '0deg',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    opacity: 1
+                    opacity: 1,
+                    color: foreground
                 }], { duration: 2000, easing: 'ease-in-out' });
             yield new Promise(r => fadeInLogo.onfinish = r);
+            this.styles({
+                background
+            });
             this.logo.styles({
                 rotate: '0deg',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                opacity: 1
+                opacity: 1,
+                color: foreground
             });
         });
     }
@@ -557,8 +564,9 @@ class Loader extends ProxyNode {
             yield new Promise(r => fadeOutLogo.onfinish = r);
             this.logo.remove();
             const fadeUI = this.element.animate([{
-                    top: '200%'
-                }], { duration: 500, easing: 'ease-in-out' });
+                    top: '200%',
+                    opacity: .5
+                }], { duration: 1000, easing: 'ease-in-out' });
             yield new Promise(r => fadeUI.onfinish = r);
             this.remove();
         });
@@ -612,16 +620,85 @@ const ProjectList = [
 ];
 
 const mainNode = qs('#main');
+const bodyNode = qs('body');
+
+class Page extends ProxyNode {
+    constructor() {
+        super('div');
+        this.colors = {
+            background: 'black',
+            foreground: 'white'
+        };
+    }
+    setColors(background, foreground) {
+        this.colors.background = background;
+        this.colors.foreground = foreground;
+        bodyNode.styles({
+            props: {
+                'color-background': background,
+                'color-foreground': foreground
+            }
+        });
+        return this;
+    }
+}
+
+var home = new Page()
+    .styles({
+    padding: '5px'
+})
+    .setColors('#F08A4B', '#B05A24')
+    .append(newNode.h2.text('Projects'), newNode.div
+    .class('project-card-container')
+    .append(ProjectList), newNode.hr, newNode.div
+    .class('links')
+    .append(newNode.a
+    .text('Discord')
+    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
+    .text('Youtube')
+    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+
+var missing = new Page()
+    .styles({
+    padding: '5px'
+})
+    .append(newNode.h1.text('Page not found'));
+
+var socials = new Page()
+    .styles({
+    padding: '5px'
+})
+    .append(newNode.h2.text('Socials'), newNode.hr, newNode.div
+    .class('links')
+    .append(newNode.a
+    .text('Discord')
+    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
+    .text('Youtube')
+    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+
+function getPage() {
+    const curPage = new URLSearchParams(location.search);
+    const value = curPage.get('page');
+    switch (value) {
+        case 'socials':
+            return socials;
+        case 'home':
+        case null:
+            return home;
+        default:
+            return missing;
+    }
+}
+
 function runPage() {
     return __awaiter(this, void 0, void 0, function* () {
+        const page = getPage();
         const loader = new Loader();
         mainNode.append(loader);
-        yield loader.fadeIn();
+        yield loader.fadeIn(page.colors.background, page.colors.foreground);
         yield new Promise(r => setTimeout(r, 1000));
-        yield loader.fadeOut();
-        mainNode.append(newNode.h2.text('Projects'), newNode.div
-            .class('project-card-container')
-            .append(ProjectList));
+        loader.fadeOut();
+        mainNode.append(page);
     });
 }
 runPage();

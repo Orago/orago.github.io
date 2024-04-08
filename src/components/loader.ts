@@ -20,6 +20,7 @@ export class Loader extends ProxyNode {
 			alignItems: 'center',
 			justifyContent: 'center',
 			top: 0,
+			zIndex: 1000
 		});
 
 		this.logo = node.div
@@ -47,26 +48,38 @@ export class Loader extends ProxyNode {
 		);
 	}
 
-	async fadeIn() {
+	async fadeIn(background: string, foreground: string) {
+		this.element.animate(
+			[{ background }],
+			{ duration: 2000, easing: 'ease-in-out' }
+		);
+
 		const fadeInLogo = this.logo.element.animate(
 			[{
 				rotate: '0deg',
 				top: '50%',
 				left: '50%',
 				transform: 'translate(-50%, -50%)',
-				opacity: 1
+				opacity: 1,
+				color: foreground
+
 			}],
 			{ duration: 2000, easing: 'ease-in-out' }
 		);
 
 		await new Promise(r => fadeInLogo.onfinish = r);
 
+		this.styles({
+			background
+		});
+
 		this.logo.styles({
 			rotate: '0deg',
 			top: '50%',
 			left: '50%',
 			transform: 'translate(-50%, -50%)',
-			opacity: 1
+			opacity: 1,
+			color: foreground
 		});
 	}
 
@@ -89,9 +102,10 @@ export class Loader extends ProxyNode {
 		// Remove background
 		const fadeUI = this.element.animate(
 			[{
-				top: '200%'
+				top: '200%',
+				opacity: .5
 			}],
-			{ duration: 500, easing: 'ease-in-out' }
+			{ duration: 1000, easing: 'ease-in-out' }
 		);
 
 		await new Promise(r => fadeUI.onfinish = r);

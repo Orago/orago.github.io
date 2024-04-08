@@ -1,26 +1,21 @@
-import { newNode as node, ProxyNode, qs } from '@orago/dom';
 import { Loader } from './components/loader';
-import { ProjectNode } from './components/project';
-import { ProjectList } from './projects';
-
-const mainNode: ProxyNode = qs('#main') as ProxyNode;
+import getPage from './getPage';
+import { mainNode } from './sharedUtil';
 
 async function runPage() {
+	const page = getPage();
 	const loader = new Loader();
 
 	mainNode.append(
 		loader
 	);
 
-	await loader.fadeIn();
+	await loader.fadeIn(page.colors.background, page.colors.foreground);
 	await new Promise(r => setTimeout(r, 1000));
-	await loader.fadeOut();
+	loader.fadeOut();
 
 	mainNode.append(
-		node.h2.text('Projects'),
-		node.div
-			.class('project-card-container')
-			.append(ProjectList)
+		page
 	);
 }
 
