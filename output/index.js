@@ -648,7 +648,9 @@ var home = new Page()
     padding: '5px'
 })
     .setColors('#F08A4B', '#B05A24')
-    .append(newNode.h2.text('Projects'), newNode.div
+    .append(newNode.h2
+    .class('title-header')
+    .text('Projects'), newNode.div
     .class('project-card-container')
     .append(ProjectList), newNode.hr, newNode.div
     .class('links')
@@ -664,11 +666,69 @@ var missing = new Page()
 })
     .append(newNode.h1.text('Page not found'));
 
-var socials = new Page()
+const socials = [
+    ['Discord', {
+            url: 'https://discord.gg/ytBtmHJjmE',
+            background: '#738adb'
+        }],
+    ['Youtube', {
+            url: 'https://www.youtube.com/channel/UCbVQOO0xb57ja74eLJQJ3Kg',
+            background: '#ff0000'
+        }],
+    ['Twitch', {
+            url: 'https://www.twitch.tv/oragocat',
+            background: '#6441a5'
+        }],
+    ['Twitter', {
+            url: 'https://twitter.com/OragoMosh',
+            background: '#1DA1F2'
+        }],
+    ['Reddit', {
+            url: 'https://www.reddit.com/user/Orago51',
+            background: '#FF4301'
+        }],
+    ['Instagram', {
+            url: 'https://www.instagram.com/oragocat/',
+            background: '#405DE6'
+        }],
+    ['Minecraft', {
+            url: 'https://namemc.com/profile/9d9380ad-ccda-46e2-9fef-04e4541be0e1',
+            background: '#40ae33'
+        }]
+];
+class SocialButton extends ProxyNode {
+    constructor(name, options) {
+        super('a');
+        this.text(name);
+        this.attr({ href: options.url });
+        this.styles({
+            color: 'white',
+            flex: '1 1',
+            borderRadius: '5px',
+            margin: '5px',
+            padding: '10px',
+            fontSize: '20px',
+            textDecoration: 'none',
+            background: options.background
+        });
+    }
+}
+var socials$1 = new Page()
+    .setColors('#EEAB53', '#DA7C01')
     .styles({
     padding: '5px'
 })
-    .append(newNode.h2.text('Socials'), newNode.hr, newNode.div
+    .append(newNode.h2
+    .class('title-header')
+    .text('Socials'), newNode.div
+    .styles({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+})
+    .append(socials.map(([name, options]) => {
+    return new SocialButton(name, options);
+})), newNode.hr, newNode.div
     .class('links')
     .append(newNode.a
     .text('Discord')
@@ -681,7 +741,7 @@ function getPage() {
     const value = curPage.get('page');
     switch (value) {
         case 'socials':
-            return socials;
+            return socials$1;
         case 'home':
         case null:
             return home;

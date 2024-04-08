@@ -8,7 +8,9 @@ export default new Page()
 })
 .setColors('#F08A4B', '#B05A24')
 .append(
-	node.h2.text('Projects'),
+	node.h2
+	.class('title-header')
+	.text('Projects'),
 	node.div
 		.class('project-card-container')
 		.append(ProjectList),
