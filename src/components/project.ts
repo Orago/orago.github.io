@@ -8,17 +8,21 @@ interface ProjectNodeExtras {
 }
 
 export class ProjectNode extends ProxyNode {
+	titleNode: ProxyNode;
+	descriptionNode: ProxyNode;
+	linkContainerNode?: ProxyNode;
+	
 	constructor(title: string, description: string, extras?: ProjectNodeExtras) {
 		super('div');
 
 		this.class('project-card');
 
 		this.append(
-			node.h2.class('title').text(title),
-			node.div.class('description').text(description),
+			this.titleNode = node.h2.class('title').text(title),
+			this.descriptionNode = node.div.class('description').text(description),
 
 			extras?.link != null &&
-			node.div
+			(this.linkContainerNode = node.div
 				.class('link-container')
 				.append(
 					node.div
@@ -36,7 +40,21 @@ export class ProjectNode extends ProxyNode {
 								}
 							}
 						})
-				)
+				))
+		);
+	}
+}
+
+export class TempImageProjectNode extends ProjectNode {
+	constructor (src: string){
+		super('', '');
+
+		this.styles({
+			width: 'fit-content'
+		});
+
+		this.setContent(
+			node.img.attr({ src })
 		);
 	}
 }

@@ -1,4 +1,5 @@
-import { ProjectNode } from "./components/project";
+import { newNode as node } from '@orago/dom';
+import { ProjectNode, TempImageProjectNode } from './components/project';
 
 
 export const ProjectList = [
@@ -14,8 +15,5 @@ export const ProjectList = [
 			}
 		}
 	),
-	new ProjectNode(
-		'Orago site',
-		'testing'
-	)
+	new TempImageProjectNode('assets/istorik-dancing-cat.gif')
 ];

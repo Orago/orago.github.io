@@ -570,8 +570,8 @@ class ProjectNode extends ProxyNode {
         var _a, _b;
         super('div');
         this.class('project-card');
-        this.append(newNode.h2.class('title').text(title), newNode.div.class('description').text(description), (extras === null || extras === void 0 ? void 0 : extras.link) != null &&
-            newNode.div
+        this.append(this.titleNode = newNode.h2.class('title').text(title), this.descriptionNode = newNode.div.class('description').text(description), (extras === null || extras === void 0 ? void 0 : extras.link) != null &&
+            (this.linkContainerNode = newNode.div
                 .class('link-container')
                 .append(newNode.div
                 .class('link')
@@ -586,7 +586,16 @@ class ProjectNode extends ProxyNode {
                         link.on('click', click);
                     }
                 }
-            })));
+            }))));
+    }
+}
+class TempImageProjectNode extends ProjectNode {
+    constructor(src) {
+        super('', '');
+        this.styles({
+            width: 'fit-content'
+        });
+        this.setContent(newNode.img.attr({ src }));
     }
 }
 
@@ -599,7 +608,7 @@ const ProjectList = [
             click: 'https://meown.net'
         }
     }),
-    new ProjectNode('Orago site', 'testing')
+    new TempImageProjectNode('assets/istorik-dancing-cat.gif')
 ];
 
 const mainNode = qs('#main');

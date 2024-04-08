@@ -59,10 +59,8 @@ body {
 }
 
 .project-card {
-	border-radius: 10px;
 	padding: 5px;
 	margin: 2px;
-	flex-grow: 1;
 	width: 300px;
 	background: rgba(255, 255, 255, 0.25);
 	backdrop-filter: blur(4px);
