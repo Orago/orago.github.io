@@ -1,5 +1,6 @@
-	import { ProxyNode } from '@orago/dom';
-	import { bodyNode } from '../sharedUtil';
+import { ProxyNode } from '@orago/dom';
+import { bodyNode } from '../sharedUtil';
+import Emitter from '@orago/lib/emitter'
 
 export default class Page extends ProxyNode {
 	colors = {
@@ -7,11 +8,13 @@ export default class Page extends ProxyNode {
 		foreground: 'white'
 	};
 
-	constructor (){
+	events = new Emitter();
+
+	constructor() {
 		super('div');
 	}
 
-	setColors (background: string, foreground: string){
+	setColors(background: string, foreground: string) {
 		this.colors.background = background;
 		this.colors.foreground = foreground;
 
@@ -23,5 +26,9 @@ export default class Page extends ProxyNode {
 		});
 
 		return this;
+	}
+
+	load (){
+		
 	}
 }

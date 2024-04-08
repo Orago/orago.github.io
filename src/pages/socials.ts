@@ -60,40 +60,42 @@ class SocialButton extends ProxyNode {
 	}
 }
 
+export default class extends Page {
+	load() {
+		this.setColors('#EEAB53', '#DA7C01');
+		this.styles({
+			padding: '5px'
+		});
+		this.append(
+			node.h2
+				.class('title-header')
+				.text('Socials'),
 
-export default new Page()
-	.setColors('#EEAB53', '#DA7C01')
-	.styles({
-		padding: '5px'
-	})
-	.append(
-		node.h2
-			.class('title-header')
-			.text('Socials'),
+			node.div
+				.styles({
+					display: 'flex',
+					flexDirection: 'row',
+					flexWrap: 'wrap'
+				})
+				.append(
+					socials.map(([name, options]) => {
+						return new SocialButton(name, options);
+					}),
+				),
 
-		node.div
-			.styles({
-				display: 'flex',
-				flexDirection: 'row',
-				flexWrap: 'wrap'
-			})
-			.append(
-				socials.map(([name, options]) => {
-					return new SocialButton(name, options);
-				}),
-			),
-
-		node.hr,
-		node.div
-			.class('links')
-			.append(
-				node.a
-					.text('Discord')
-					.attr({ href: 'https://discord.gg/T6tNfcY3Jg' }),
+			node.hr,
+			node.div
+				.class('links')
+				.append(
+					node.a
+						.text('Discord')
+						.attr({ href: 'https://discord.gg/T6tNfcY3Jg' }),
 
 
-				node.a
-					.text('Youtube')
-					.attr({ href: 'https://discord.gg/T6tNfcY3Jg' })
-			)
-	);
+					node.a
+						.text('Youtube')
+						.attr({ href: 'https://discord.gg/T6tNfcY3Jg' })
+				)
+		);
+	}
+}

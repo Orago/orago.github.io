@@ -3,8 +3,11 @@ import getPage from './getPage';
 import { mainNode } from './sharedUtil';
 
 async function runPage() {
-	const page = getPage();
+	const page = new (getPage());
 	const loader = new Loader();
+
+	page.load();
+
 
 	mainNode.append(
 		loader

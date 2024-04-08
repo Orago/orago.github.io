@@ -622,6 +622,62 @@ const ProjectList = [
 const mainNode = qs('#main');
 const bodyNode = qs('body');
 
+class Emitter {
+    constructor(all) {
+        this.all = new Map();
+        if (all instanceof Map) {
+            this.all = all;
+        }
+        else if (Array.isArray(all)) {
+            this.all = new Map(all);
+        }
+    }
+    on(event, handler) {
+        const handlers = this.all.get(event);
+        if (handlers) {
+            handlers.push(handler);
+        }
+        else {
+            this.all.set(event, [handler]);
+        }
+        return this;
+    }
+    off(event, handler) {
+        const handlers = this.all.get(event);
+        if (handlers) {
+            if (handler) {
+                const index = handlers.indexOf(handler);
+                if (index !== -1) {
+                    handlers.splice(index, 1);
+                }
+            }
+            else {
+                this.all.set(event, []);
+            }
+        }
+        return this;
+    }
+    emit(event, ...args) {
+        let handlers = this.all.get(event);
+        if (handlers) {
+            for (const handler of handlers.slice()) {
+                handler(...args);
+            }
+        }
+        if (handlers = this.all.get('*')) {
+            for (const handler of handlers.slice()) {
+                handler(event, ...args);
+            }
+        }
+        return this;
+    }
+    *[Symbol.iterator]() {
+        for (const entry of this.all.entries()) {
+            yield entry;
+        }
+    }
+}
+
 class Page extends ProxyNode {
     constructor() {
         super('div');
@@ -629,6 +685,7 @@ class Page extends ProxyNode {
             background: 'black',
             foreground: 'white'
         };
+        this.events = new Emitter();
     }
     setColors(background, foreground) {
         this.colors.background = background;
@@ -641,30 +698,39 @@ class Page extends ProxyNode {
         });
         return this;
     }
+    load() {
+    }
 }
 
-var home = new Page()
-    .styles({
-    padding: '5px'
-})
-    .setColors('#F08A4B', '#B05A24')
-    .append(newNode.h2
-    .class('title-header')
-    .text('Projects'), newNode.div
-    .class('project-card-container')
-    .append(ProjectList), newNode.hr, newNode.div
-    .class('links')
-    .append(newNode.a
-    .text('Discord')
-    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
-    .text('Youtube')
-    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+class HomePage extends Page {
+    load() {
+        this.styles({
+            padding: '5px'
+        });
+        this.setColors('#F08A4B', '#B05A24');
+        this.append(newNode.h2
+            .class('title-header')
+            .text('Projects'), newNode.div
+            .class('project-card-container')
+            .append(ProjectList), newNode.hr, newNode.div
+            .class('links')
+            .append(newNode.a
+            .text('Discord')
+            .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
+            .text('Youtube')
+            .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+    }
+}
 
-var missing = new Page()
-    .styles({
-    padding: '5px'
-})
-    .append(newNode.h1.text('Page not found'));
+class MissingPage extends Page {
+    load() {
+        this
+            .styles({
+            padding: '5px'
+        })
+            .append(newNode.h1.text('Page not found'));
+    }
+}
 
 const socials = [
     ['Discord', {
@@ -713,47 +779,53 @@ class SocialButton extends ProxyNode {
         });
     }
 }
-var socials$1 = new Page()
-    .setColors('#EEAB53', '#DA7C01')
-    .styles({
-    padding: '5px'
-})
-    .append(newNode.h2
-    .class('title-header')
-    .text('Socials'), newNode.div
-    .styles({
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-})
-    .append(socials.map(([name, options]) => {
-    return new SocialButton(name, options);
-})), newNode.hr, newNode.div
-    .class('links')
-    .append(newNode.a
-    .text('Discord')
-    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
-    .text('Youtube')
-    .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+class socials$1 extends Page {
+    load() {
+        this.setColors('#EEAB53', '#DA7C01');
+        this.styles({
+            padding: '5px'
+        });
+        this.append(newNode.h2
+            .class('title-header')
+            .text('Socials'), newNode.div
+            .styles({
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap'
+        })
+            .append(socials.map(([name, options]) => {
+            return new SocialButton(name, options);
+        })), newNode.hr, newNode.div
+            .class('links')
+            .append(newNode.a
+            .text('Discord')
+            .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
+            .text('Youtube')
+            .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+    }
+}
 
 function getPage() {
     const curPage = new URLSearchParams(location.search);
-    const value = curPage.get('page');
-    switch (value) {
+    const pageValue = curPage.get('page');
+    const paths = pageValue != null ? pageValue.split('') : location.pathname.split('/').splice(1);
+    switch (paths[0]) {
         case 'socials':
             return socials$1;
         case 'home':
+        case '':
         case null:
-            return home;
+            return HomePage;
         default:
-            return missing;
+            return MissingPage;
     }
 }
 
 function runPage() {
     return __awaiter(this, void 0, void 0, function* () {
-        const page = getPage();
+        const page = new (getPage());
         const loader = new Loader();
+        page.load();
         mainNode.append(loader);
         yield loader.fadeIn(page.colors.background, page.colors.foreground);
         yield new Promise(r => setTimeout(r, 1000));
