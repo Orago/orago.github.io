@@ -487,7 +487,9 @@ function qs(selector, element = document) {
 }
 
 const splashes = [
-    'Now with 50% more unpaid cat labor'
+    'Now with 50% more unpaid cat labor',
+    'All on Me Own 😔',
+    'Check out you MyTube'
 ];
 
 const random = (min = 0, max = 50) => Math.floor(Math.random() * (max + 1 - min) + min);
@@ -572,52 +574,6 @@ class Loader extends ProxyNode {
         });
     }
 }
-
-class ProjectNode extends ProxyNode {
-    constructor(title, description, extras) {
-        var _a, _b;
-        super('div');
-        this.class('project-card');
-        this.append(this.titleNode = newNode.h2.class('title').text(title), this.descriptionNode = newNode.div.class('description').text(description), (extras === null || extras === void 0 ? void 0 : extras.link) != null &&
-            (this.linkContainerNode = newNode.div
-                .class('link-container')
-                .append(newNode.div
-                .class('link')
-                .text((_b = (_a = extras.link) === null || _a === void 0 ? void 0 : _a.text) !== null && _b !== void 0 ? _b : 'View' + ' >')
-                .ref(link => {
-                if (extras.link != null) {
-                    const { click } = extras.link;
-                    if (typeof click === 'string') {
-                        link.on('click', () => location.href = click);
-                    }
-                    else {
-                        link.on('click', click);
-                    }
-                }
-            }))));
-    }
-}
-class TempImageProjectNode extends ProjectNode {
-    constructor(src) {
-        super('', '');
-        this.styles({
-            width: 'fit-content'
-        });
-        this.setContent(newNode.img.attr({ src }));
-    }
-}
-
-const ProjectList = [
-    new ProjectNode('Meown', `Meown is a bla bla bla bla 
-		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bl
-		a bla bla bla bla bla bla bla bla bla bla bla 
-		bla bla bla`, {
-        link: {
-            click: 'https://meown.net'
-        }
-    }),
-    new TempImageProjectNode('assets/istorik-dancing-cat.gif')
-];
 
 const mainNode = qs('#main');
 const bodyNode = qs('body');
@@ -710,9 +666,7 @@ class HomePage extends Page {
         this.setColors('#F08A4B', '#B05A24');
         this.append(newNode.h2
             .class('title-header')
-            .text('Projects'), newNode.div
-            .class('project-card-container')
-            .append(ProjectList), newNode.hr, newNode.div
+            .text('Orago!'), newNode.hr, newNode.div
             .class('links')
             .append(newNode.a
             .text('Discord')
@@ -724,11 +678,12 @@ class HomePage extends Page {
 
 class MissingPage extends Page {
     load() {
+        this.setColors('#D8D7D5', '#9ea3ab');
         this
             .styles({
             padding: '5px'
         })
-            .append(newNode.h1.text('Page not found'));
+            .append(newNode.h1.text('404 Page not found'));
     }
 }
 
@@ -805,17 +760,128 @@ class socials$1 extends Page {
     }
 }
 
+const links = [
+    ['home', '/'],
+    ['projects', '/?page=projects'],
+    ['socials', '/?page=socials'],
+];
+class LinkButton extends ProxyNode {
+    constructor(name, url) {
+        super('a');
+        this.text(name);
+        this.attr({ href: url });
+        this.styles({
+            color: 'white',
+            flex: '1 1',
+            borderRadius: '5px',
+            margin: '5px',
+            padding: '10px',
+            fontSize: '20px',
+            textDecoration: 'none',
+            background: 'cornflowerblue'
+        });
+    }
+}
+class directory extends Page {
+    load() {
+        this.setColors('#38568d', 'cornflowerblue');
+        this.styles({
+            padding: '5px'
+        });
+        this.append(newNode.h2
+            .class('title-header')
+            .text('Directory'), newNode.div
+            .styles({
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap'
+        })
+            .append(links.map(([name, options]) => {
+            return new LinkButton(name, options);
+        })));
+    }
+}
+
+class ProjectNode extends ProxyNode {
+    constructor(title, description, extras) {
+        var _a, _b;
+        super('div');
+        this.class('project-card');
+        this.append(this.titleNode = newNode.h2.class('title').text(title), this.descriptionNode = newNode.div.class('description').text(description), (extras === null || extras === void 0 ? void 0 : extras.link) != null &&
+            (this.linkContainerNode = newNode.div
+                .class('link-container')
+                .append(newNode.div
+                .class('link')
+                .text((_b = (_a = extras.link) === null || _a === void 0 ? void 0 : _a.text) !== null && _b !== void 0 ? _b : 'View' + ' >')
+                .ref(link => {
+                if (extras.link != null) {
+                    const { click } = extras.link;
+                    if (typeof click === 'string') {
+                        link.on('click', () => location.href = click);
+                    }
+                    else {
+                        link.on('click', click);
+                    }
+                }
+            }))));
+    }
+}
+class TempImageProjectNode extends ProjectNode {
+    constructor(src) {
+        super('', '');
+        this.styles({
+            width: 'fit-content'
+        });
+        this.setContent(newNode.img.attr({ src }));
+    }
+}
+
+const ProjectList = [
+    new ProjectNode('Meown', `Meown is a bla bla bla bla 
+		bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bl
+		a bla bla bla bla bla bla bla bla bla bla bla 
+		bla bla bla`, {
+        link: {
+            click: 'https://meown.net'
+        }
+    }),
+    new TempImageProjectNode('assets/istorik-dancing-cat.gif')
+];
+class ProjectsPage extends Page {
+    load() {
+        this.styles({
+            padding: '5px'
+        });
+        this.setColors('#0a202b', '#f87b4c');
+        this.append(newNode.h2
+            .class('title-header')
+            .text('Projects'), newNode.div
+            .class('project-card-container')
+            .append(ProjectList), newNode.hr, newNode.div
+            .class('links')
+            .append(newNode.a
+            .text('Discord')
+            .attr({ href: 'https://discord.gg/T6tNfcY3Jg' }), newNode.a
+            .text('Youtube')
+            .attr({ href: 'https://discord.gg/T6tNfcY3Jg' })));
+    }
+}
+
 function getPage() {
     const curPage = new URLSearchParams(location.search);
     const pageValue = curPage.get('page');
-    const paths = pageValue != null ? pageValue.split('') : location.pathname.split('/').splice(1);
+    const paths = pageValue != null ? pageValue.split('/') : location.pathname.split('/').splice(1);
     switch (paths[0]) {
-        case 'socials':
-            return socials$1;
         case 'home':
         case '':
         case null:
             return HomePage;
+        case 'socials':
+            return socials$1;
+        case 'projects':
+            return ProjectsPage;
+        case 'directory':
+            return directory;
         default:
             return MissingPage;
     }
@@ -830,7 +896,19 @@ function runPage() {
         yield loader.fadeIn(page.colors.background, page.colors.foreground);
         yield new Promise(r => setTimeout(r, 1000));
         loader.fadeOut();
-        mainNode.append(page);
+        mainNode.append(page, newNode.div
+            .styles({
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'var(--color-foreground)',
+            padding: '10px',
+            borderRadius: '50%',
+            fontSize: '26px',
+            cursor: 'pointer'
+        })
+            .text('🔗')
+            .on('click', () => location.href = '?page=directory'));
     });
 }
 runPage();

@@ -13,10 +13,8 @@ export default class HomePage extends Page {
 		this.append(
 			node.h2
 				.class('title-header')
-				.text('Projects'),
-			node.div
-				.class('project-card-container')
-				.append(ProjectList),
+				.text('Orago!'),
+
 
 			node.hr,
 			node.div

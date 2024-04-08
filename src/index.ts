@@ -1,3 +1,4 @@
+import { newNode as node } from '@orago/dom';
 import { Loader } from './components/loader';
 import getPage from './getPage';
 import { mainNode } from './sharedUtil';
@@ -8,7 +9,6 @@ async function runPage() {
 
 	page.load();
 
-
 	mainNode.append(
 		loader
 	);
@@ -18,7 +18,21 @@ async function runPage() {
 	loader.fadeOut();
 
 	mainNode.append(
-		page
+		page,
+
+		node.div
+			.styles({
+				position: 'absolute',
+				top: '10px',
+				right: '10px',
+				background: 'var(--color-foreground)',
+				padding: '10px',
+				borderRadius: '50%',
+				fontSize: '26px',
+				cursor: 'pointer'
+			})
+			.text('🔗')
+			.on('click', () => location.href = '?page=directory')
 	);
 }
 
