@@ -94,7 +94,7 @@ export default class extends Page {
 
 					node.a
 						.text('Youtube')
-						.attr({ href: 'https://discord.gg/T6tNfcY3Jg' })
+						.attr({ href: 'https://youtube.com/orago' })
 				)
 		);
 	}
