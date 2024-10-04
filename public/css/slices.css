@@ -1,12 +1,12 @@
-.pillars {
-	border-image: url(../images/pillars.png) 32 fill / 32px repeat;
+.frame {
+	border-image: url(../images/cvs.png) 32 fill / 32px repeat;
 	border-width: 32px;
 	padding: 32px;
 	image-rendering: pixelated;
 }
 
 hr {
-	border-image: url(../images/horizontal-row.png) 8 fill / 16px repeat;
+	border-image: url(../images/horizontal-row.png) 16 fill / 16px repeat;
 	border-width: 16px;
 	image-rendering: pixelated;
 	margin: 5px;
@@ -14,8 +14,8 @@ hr {
 }
 
 .panel {
-	border-image: url(../images/side-content.png) 16 fill / 16px repeat;
+	border-image: url(../images/frame.png) 32 fill / 32px round;
 	border-width: 8px;
-	padding: 16px;
+	padding: 30px !important;
 	image-rendering: pixelated;
 }

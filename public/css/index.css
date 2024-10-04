@@ -2,6 +2,16 @@
 @import url(./panel.css);
 @import url(./container.css);
 
+@font-face {
+	font-family: 'chainsaw-carnage';
+	src: url(../fonts/ChainsawCarnage.ttf);
+}
+
+@font-face {
+	font-family: 'help-me';
+	src: url(../fonts//HelpMe.ttf);
+}
+
 *,
 *:before,
 *:after {
@@ -9,12 +19,13 @@
 }
 
 :root {
-	--background-main: url(../images/background.png);
+	--background-main: url(../images/bga2.png);
 	--background-button: orange;
 	--background-card: wheat;
 	--color-card: brown;
+	--color-link: #ff4444;
 
-	--color-title: maroon;
+	--color-title: #d3181c;
 	--color-button: wheat;
 	--border: white;
 
@@ -54,10 +65,13 @@ body {
 }
 
 .title {
+	font-family: 'chainsaw-carnage';
 	color: var(--color-title);
+	text-shadow: black 2px 2px;
 	text-align: center;
-	font-size: 40px;
+	font-size: 80px;
 	font-weight: 1000;
+	margin: 0;
 }
 
 .content-split {
@@ -66,7 +80,17 @@ body {
 	width: 100%;
 }
 
+.section-title {
+	font-family: 'help-me';
+	color: var(--color-title);
+	text-shadow: black 2px 2px;
+}
 
+a:link, a:visited, a:hover, a:active {
+  color: var(--color-link);
+	font-family: 'help-me';
+	margin: 3px;
+}
 /* #region 
 
 
