@@ -4,12 +4,12 @@
 
 @font-face {
 	font-family: 'chainsaw-carnage';
-	src: url(../fonts/ChainsawCarnage.ttf);
+	src: url(../fonts/ChainsawCarnage.woff2);
 }
 
 @font-face {
 	font-family: 'help-me';
-	src: url(../fonts//HelpMe.ttf);
+	src: url(../fonts//HelpMe.woff2);
 }
 
 *,
