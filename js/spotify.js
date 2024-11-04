@@ -27,4 +27,6 @@
 	}
 
 	window.doSpotify = doSpotifyBS;
+
+	doSpotifyBS();
 })();
