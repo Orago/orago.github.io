@@ -16,6 +16,6 @@ hr {
 .panel {
 	border-image: url(../images/frame.png) 32 fill / 32px round;
 	border-width: 8px;
-	padding: 30px !important;
+	padding: 32px !important;
 	image-rendering: pixelated;
 }

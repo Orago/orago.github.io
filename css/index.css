@@ -1,6 +1,8 @@
 @import url(./slices.css);
 @import url(./panel.css);
 @import url(./container.css);
+@import url(./parallax.css);
+@import url(./deco.css);
 
 @font-face {
 	font-family: 'chainsaw-carnage';
@@ -10,6 +12,11 @@
 @font-face {
 	font-family: 'help-me';
 	src: url(../fonts//HelpMe.woff2);
+}
+
+@font-face {
+	font-family: 'pixel';
+	src: url(../fonts//m5x7.ttf);
 }
 
 *,
@@ -22,10 +29,10 @@
 	--background-main: url(../images/bg.png);
 	--background-button: orange;
 	--background-card: wheat;
-	--color-card: brown;
-	--color-link: #cf4d11;
+	--color-card: rgb(1, 1, 1);
+	--color-link: #2f2f2f;
 
-	--color-title: #d3181c;
+	--color-title: #000000;
 	--color-button: wheat;
 	--border: white;
 
@@ -62,6 +69,7 @@ body::before {
 body {
 	background: var(--background-main) !important;
 	margin: 0;
+	image-rendering: pixelated;
 }
 
 .title {
@@ -86,12 +94,68 @@ body {
 	text-shadow: black 2px 2px;
 }
 
-a:link, a:visited, a:hover, a:active {
-  color: var(--color-link);
+a:link,
+a:visited,
+a:hover,
+a:active {
+	color: var(--color-link);
 	font-weight: 1000;
 	/* font-family: 'help-me'; */
 	margin: 3px;
 }
+
+.row {
+	display: flex;
+	align-items: center;
+	align-items: end;
+}
+
+.logo {
+	min-width: 200px;
+	margin: 10px;
+}
+
+marquee,
+.main-links {
+	font-family: 'pixel';
+}
+
+.main-links {
+	font-size: 30px;
+
+}
+
+.main-links .link {
+	transition: .2s;
+}
+
+.link:hover {
+	transform: translate(59px);
+	color: green;
+}
+
+ul.horizontal {
+	margin: 0;
+}
+
+ul.horizontal li {
+	display: inline-block;
+}
+
+ul.horizontal li:before {
+	font-size: 30px;
+	content: '• ';
+	color: black;
+}
+
+ul.horizontal li:first-child:before {
+	content: '';
+}
+
+#spotify {
+	display: none;
+}
+
 /* #region 
 
 
