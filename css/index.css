@@ -19,11 +19,11 @@
 }
 
 :root {
-	--background-main: url(../images/bga2.png);
+	--background-main: url(../images/bg.png);
 	--background-button: orange;
 	--background-card: wheat;
 	--color-card: brown;
-	--color-link: #ff4444;
+	--color-link: #cf4d11;
 
 	--color-title: #d3181c;
 	--color-button: wheat;
@@ -88,7 +88,8 @@ body {
 
 a:link, a:visited, a:hover, a:active {
   color: var(--color-link);
-	font-family: 'help-me';
+	font-weight: 1000;
+	/* font-family: 'help-me'; */
 	margin: 3px;
 }
 /* #region 
